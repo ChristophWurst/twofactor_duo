@@ -5,6 +5,7 @@ Two-factor authentication (2FA) framework was added to ownCloud 9.1. This projec
 Currently, some modifications to the core TwoFactorAuthentication framework were necessary, specifically to allow the Duo "iframe" to be displayed on the page, due to the default CSP restrictions. The changes are included in my fork of the ownCloud core repo.
 
 Requirements:
+
     - PHP 5.6 (Duo SDK requirement)
     - Duo application settings (IKEY, SKEY, HOST)
 
