@@ -53,7 +53,7 @@ class DuoProvider implements IProvider {
 	 * @return string
 	 */
 	public function getDescription() {
-		return 'Duo Push';
+		return 'Duo';
 	}
 
 	/**
