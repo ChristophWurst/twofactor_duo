@@ -8,5 +8,11 @@ Requirements:
 
     - PHP 5.6 (Duo SDK requirement)
     - Duo application settings (IKEY, SKEY, HOST)
+    
+Installation:
+    
+Clone this repo to the 'apps/duo' directory of your ownCloud installation. i.e.:
 
-This has been tested on ownCloud 9.2.1 (cloned from "master" branch of the official ownCloud repo) on a CentOS 7 server with manually upgraded PHP.
+    cd /var/www/html/owncloud/apps && git clone https://github.com/elie195/duo_provider.git duo
+    
+This has been tested on ownCloud 9.2.1 (cloned from "master" branch of the official ownCloud repo) on a CentOS 7 server with manually upgraded PHP. More detailed installation instructions to come.
