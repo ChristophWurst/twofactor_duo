@@ -1,0 +1,6 @@
+<?php
+define('AKEY', "");
+define('IKEY', "");
+define('SKEY', "");
+define('HOST', "");
+?>

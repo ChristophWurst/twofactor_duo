@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<info>
+	<id>duo</id>
+	<name>Duo Two-Factor Provider</name>
+	<description>Duo Two-Factor-Auth Provider for ownCloud 9.1+</description>
+	<licence>AGPL</licence>
+	<author>El-ad Blech</author>
+	<version>0.0.1</version>
+	<namespace>Duo</namespace>
+	<category>other</category>
+	<types>
+		<prelogin/>
+		<authentication/>
+	</types>
+
+	<two-factor-providers>
+		<provider>OCA\Duo\Provider\DuoProvider</provider>
+	</two-factor-providers>
+
+	<dependencies>
+		<owncloud min-version="9.1" max-version="9.3" />
+	</dependencies>
+</info>
