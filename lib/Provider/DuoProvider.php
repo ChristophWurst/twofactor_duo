@@ -87,7 +87,6 @@ class DuoProvider implements IProvider {
 	 * @param string $challenge
 	 */
 	public function verifyChallenge(IUser $user, $challenge) {
-		echo $challenge;
 		$resp = \Duo\Web::verifyResponse(IKEY, SKEY, AKEY, $challenge);
 		if ($resp) {
 			return true;
