@@ -48,7 +48,7 @@ Or if you're using Python3:
     import os, hashlib
     print(hashlib.sha1(os.urandom(32)).hexdigest())
 
-This has been tested on ownCloud 9.2.1 (cloned from "master" branch of the official ownCloud repo) on a CentOS 7 server with manually upgraded PHP. More detailed installation instructions to come.
+This has been tested on ownCloud 9.2.1 (cloned from "master" branch of the official ownCloud repo) on a CentOS 7 server, as well as an Ubuntu 14.04 server (both with manually upgraded PHP: PHP 5.6.24 on CentOS 7, PHP 7.0.9-1 on Ubuntu 14.04). 
 
 See https://duo.com/docs/duoweb for more info on the Duo Web SDK and additional details about the "AKEY" variable.
 See https://www.digitalocean.com/community/tutorials/how-to-upgrade-to-php-7-on-ubuntu-14-04 for a PHP upgrade guide for Ubuntu 14.04
