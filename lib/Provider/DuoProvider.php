@@ -57,14 +57,27 @@ class DuoProvider implements IProvider {
 	}
 
 	/**
+         * Get the Content Security Policy for the template (required for showing external content, otherwise optional)
+         *
+         * @return \OCP\AppFramework\Http\ContentSecurityPolicy
+         */
+
+	public function getCSP() {
+		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
+		$csp->addAllowedFrameDomain('https://*.duosecurity.com');
+                return $csp;
+        }
+
+	/**
 	 * Get the template for rending the 2FA provider view
 	 *
 	 * @param IUser $user
 	 * @return Template
 	 */
 	public function getTemplate(IUser $user) {
-		$parameters = array('user' => $user->getDisplayName());
-		return new Template('duo', 'challenge');
+		$tmpl = new Template('duo', 'challenge');
+		$tmpl->assign('user', $user->getDisplayName());
+		return $tmpl;
 	}
 
 	/**
