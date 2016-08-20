@@ -36,7 +36,7 @@ Currently, some modifications to the core TwoFactorAuthentication framework were
     
 4. Enable the app in the ownCloud GUI
 
-    ![Image of Duo app](https://github.com/elie195/duo_provider/misc/duo.PNG)
+    ![Image of Duo app](https://github.com/elie195/duo_provider/raw/master/misc/duo.PNG)
 
 I have included an "AKEY" in the duo.conf.example file. The "AKEY" is an application-specific secret string. Feel free to generate your own "AKEY" by executing the following Python code:
 
