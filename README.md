@@ -38,6 +38,9 @@ Currently, some modifications to the core TwoFactorAuthentication framework were
 
     ![Image of Duo app](https://github.com/elie195/duo_provider/raw/master/misc/duo.PNG)
 
+
+##Notes
+
 I have included an "AKEY" in the duo.conf.example file. The "AKEY" is an application-specific secret string. Feel free to generate your own "AKEY" by executing the following Python code:
 
     import os, hashlib
