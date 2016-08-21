@@ -56,4 +56,7 @@ You may then take this new AKEY and insert it into your customized duo.conf file
 This has been tested on ownCloud 9.2.1 (cloned from "master" branch of the official ownCloud repo) on a CentOS 7 server, as well as an Ubuntu 14.04 server where ownCloud was installed from packages (both with manually upgraded PHP: PHP 5.6.24 on CentOS 7, PHP 7.0.9-1 on Ubuntu 14.04). 
 
 See https://duo.com/docs/duoweb for more info on the Duo Web SDK and additional details about the "AKEY" variable.
+
 See https://www.digitalocean.com/community/tutorials/how-to-upgrade-to-php-7-on-ubuntu-14-04 for a PHP upgrade guide for Ubuntu 14.04
+
+Checkout my ownCloud Application page: https://apps.owncloud.com/content/show.php?content=174747
