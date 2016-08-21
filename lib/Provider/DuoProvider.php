@@ -76,7 +76,7 @@ class DuoProvider implements IProvider {
 	 */
 	public function getTemplate(IUser $user) {
 		$tmpl = new Template('duo', 'challenge');
-		$tmpl->assign('user', $user->getDisplayName());
+		$tmpl->assign('user', $user->getUID());
 		return $tmpl;
 	}
 
