@@ -43,6 +43,14 @@ Currently, some modifications to the core TwoFactorAuthentication framework were
 
 **Important:** Please disable the "*Notifications*" plugin if enabled. This plugin has been found to refresh the two-factor related pages, making it extremely difficult/impossible to complete the 2FA process.
 
+###LDAP integration
+
+If you're using LDAP, the 2FA won't work right off the bat, since ownCloud stores LDAP users with their UUID, so I'm not able to pass the plaintext username to Duo, and the authentication fails. See issue #2 for more details.
+
+To change the LDAP settings so that the internal identifier uses the username instead of the UUID, do the following (I'm using AD LDAP, so the attributes are named accordingly): To configure this with AD LDAP, go into "Expert" mode in the ownCloud LDAP settings, and set "Internal Username Attribute" to "sAMAccountName". Note that this only affects new users.
+
+###Misc
+
 I have included an "AKEY" in the duo.conf.example file. The "AKEY" is an application-specific secret string. Feel free to generate your own "AKEY" by executing the following Python code:
 
     import os, hashlib
