@@ -7,7 +7,7 @@ Currently, some modifications to the core TwoFactorAuthentication framework were
 
 ##Requirements
 
-- PHP >=5.6 (Duo SDK requirement) - See guide at the bottom for Ubuntu 14.04 instructions
+- PHP >=5.6 (Duo SDK requirement) - See guide at the bottom for Ubuntu 14.04 instructions (*This doesn't seem like a hard requirement, successfully used PHP 5.4.16 on CentOS 7 as well*)
 - Duo application settings (IKEY, SKEY, HOST)
 - ownCloud core installation patched with changes from my fork (https://github.com/elie195/core). See installation instructions below.
     
