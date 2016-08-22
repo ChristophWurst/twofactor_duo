@@ -41,6 +41,8 @@ Currently, some modifications to the core TwoFactorAuthentication framework were
 
 ##Notes
 
+**Important:** Please disable the "*Notifications*" plugin if enabled. This plugin has been found to refresh the two-factor related pages, making it extremely difficult/impossible to complete the 2FA process.
+
 I have included an "AKEY" in the duo.conf.example file. The "AKEY" is an application-specific secret string. Feel free to generate your own "AKEY" by executing the following Python code:
 
     import os, hashlib
