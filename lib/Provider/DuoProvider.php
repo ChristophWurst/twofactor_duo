@@ -20,14 +20,14 @@
 
 namespace OCA\Duo\Provider;
 
-use OCP\Authentication\TwoFactorAuth\IProvider;
+use OCP\Authentication\TwoFactorAuth\IProvider2;
 use OCP\IUser;
 use OCP\Template;
 
 require_once 'duo/lib/Web.php';
 include 'duo/duo.conf';
 
-class DuoProvider implements IProvider {
+class DuoProvider implements IProvider2 {
 
 	/**
 	 * Get unique identifier of this 2FA provider
