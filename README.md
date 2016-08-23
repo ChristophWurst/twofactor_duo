@@ -64,4 +64,4 @@ See https://duo.com/docs/duoweb for more info on the Duo Web SDK and additional 
 
 See https://www.digitalocean.com/community/tutorials/how-to-upgrade-to-php-7-on-ubuntu-14-04 for a PHP upgrade guide for Ubuntu 14.04
 
-Check out my ownCloud Application page: https://apps.owncloud.com/content/show.php?content=174747
+Check out my ownCloud Application page: https://apps.owncloud.com/content/show.php?content=174748
