@@ -1,7 +1,0 @@
-<?php
-define('AKEY', "8749032634b9c0ee14fa785c3e59b424a13d2073");
-// Enter your own settings here
-define('IKEY', "");
-define('SKEY', "");
-define('HOST', "");
-?>

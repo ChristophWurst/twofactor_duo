@@ -19,13 +19,15 @@
  */
 
 namespace OCA\Duo\Provider;
+global $conf_ini_array;
 
 use OCP\Authentication\TwoFactorAuth\IProvider2;
 use OCP\IUser;
 use OCP\Template;
 
 require_once 'duo/lib/Web.php';
-include 'duo/duo.conf';
+
+$conf_ini_array = parse_ini_file('duo/duo.ini',1);
 
 class DuoProvider implements IProvider2 {
 
@@ -64,7 +66,8 @@ class DuoProvider implements IProvider2 {
 
 	public function getCSP() {
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
-		$csp->addAllowedFrameDomain('https://*.duosecurity.com');
+		$csp->addAllowedChildSrcDomain('https://*.duosecurity.com');
+		$csp->addAllowedStyleDomain('https://*.duosecurity.com');
                 return $csp;
         }
 
@@ -75,8 +78,13 @@ class DuoProvider implements IProvider2 {
 	 * @return Template
 	 */
 	public function getTemplate(IUser $user) {
+		global $conf_ini_array;
 		$tmpl = new Template('duo', 'challenge');
 		$tmpl->assign('user', $user->getUID());
+		$tmpl->assign('IKEY', $conf_ini_array['duo_app_settings']['IKEY']);
+		$tmpl->assign('SKEY', $conf_ini_array['duo_app_settings']['SKEY']);
+		$tmpl->assign('AKEY', $conf_ini_array['duo_app_settings']['AKEY']);
+		$tmpl->assign('HOST', $conf_ini_array['duo_app_settings']['HOST']);
 		return $tmpl;
 	}
 
@@ -87,7 +95,13 @@ class DuoProvider implements IProvider2 {
 	 * @param string $challenge
 	 */
 	public function verifyChallenge(IUser $user, $challenge) {
-		$resp = \Duo\Web::verifyResponse(IKEY, SKEY, AKEY, $challenge);
+		global $conf_ini_array;	
+	
+		$IKEY = $conf_ini_array['duo_app_settings']['IKEY'];
+		$SKEY = $conf_ini_array['duo_app_settings']['SKEY'];
+		$AKEY = $conf_ini_array['duo_app_settings']['AKEY'];
+
+		$resp = \Duo\Web::verifyResponse($IKEY, $SKEY, $AKEY, $challenge);
 		if ($resp) {
 			return true;
 		}
@@ -101,8 +115,27 @@ class DuoProvider implements IProvider2 {
 	 * @return boolean
 	 */
 	public function isTwoFactorAuthEnabledForUser(IUser $user) {
-		// 2FA is enforced for all users
-		return true;
+		global $conf_ini_array;
+
+		// If configured in duo.ini, LDAP users will bypass Duo 2FA
+		if ($conf_ini_array['custom_settings']['LDAP_BYPASS']) {
+			// Check the backend of the user and bypass Duo if LDAP
+			$backend = $user->getBackendClassName();
+			if ($backend == 'LDAP')
+				return false;
+			else
+				return true;
+		}
+		// If configured in duo.ini, source IP addresses specified in the IP_BYPASS array will bypass Duo 2FA
+		if (null !== $conf_ini_array['custom_settings']['IP_BYPASS']) {
+			$IP_BYPASS = $conf_ini_array['custom_settings']['IP_BYPASS'];
+			$remote_ip = (string)trim((getenv(REMOTE_ADDR)));
+			if (in_array($remote_ip,$IP_BYPASS))
+				return false;
+			else
+				return true;
+		}
+                return true; // Fallback to requiring 2FA
 	}
 
 }
