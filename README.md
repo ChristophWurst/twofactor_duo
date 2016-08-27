@@ -21,10 +21,10 @@ Two-factor authentication (2FA) framework was added to ownCloud 9.1. This projec
     cd /var/www/owncloud/apps && git clone https://github.com/elie195/duo_provider.git duo
     ```
     
-2. Customize duo.conf (**remember** to insert your own **IKEY**, **SKEY**, **HOST** values!):
+2. Customize duo.ini (**remember** to insert your own **IKEY**, **SKEY**, **HOST** values!):
 
     ```
-    cp duo/duo.conf.example duo/duo.conf
+    cp duo/duo.ini.example duo/duo.ini
     ```
     
 3. Enable the app in the ownCloud GUI
@@ -44,9 +44,13 @@ If you're using LDAP, the 2FA won't work right off the bat, since ownCloud refer
 
 To change the LDAP settings so that the internal identifier uses the username instead of the UUID, do the following (I'm using AD LDAP, so the attributes are named accordingly): To configure this with AD LDAP, go into "Expert" mode in the ownCloud LDAP settings, and set "Internal Username Attribute" to "sAMAccountName". Note that this only affects new users. Existing users must be deleted and recreated, so use at your own risk.
 
+###Added features
+- August 27, 2016: You may now configure specific client IP addresses to bypass Duo 2FA in duo.ini. Check duo.ini.example for more details. (https://github.com/elie195/duo_provider/issues/3)
+- August 27, 2016: You may now configure an option in duo.ini to bypass Duo 2FA for LDAP users only. Check duo.ini.example for more details.(https://github.com/elie195/duo_provider/issues/4)
+
 ###Misc
 
-I have included an "AKEY" in the duo.conf.example file. The "AKEY" is an application-specific secret string. Feel free to generate your own "AKEY" by executing the following Python code:
+I have included an "AKEY" in the duo.ini.example file. The "AKEY" is an application-specific secret string. Feel free to generate your own "AKEY" by executing the following Python code:
 
     import os, hashlib
     print hashlib.sha1(os.urandom(32)).hexdigest()
@@ -56,7 +60,7 @@ Or if you're using Python3:
     import os, hashlib
     print(hashlib.sha1(os.urandom(32)).hexdigest())
 
-You may then take this new AKEY and insert it into your customized duo.conf file.
+You may then take this new AKEY and insert it into your customized duo.ini file.
 
 This has been tested on ownCloud 9.2.1 (cloned from "master" branch of the official ownCloud repo) on a CentOS 7 server, as well as an Ubuntu 14.04 server where ownCloud was installed from packages (both with manually upgraded PHP: PHP 5.6.24 on CentOS 7, PHP 7.0.9-1 on Ubuntu 14.04). 
 
