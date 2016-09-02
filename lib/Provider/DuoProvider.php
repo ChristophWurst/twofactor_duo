@@ -68,6 +68,7 @@ class DuoProvider implements IProvider2 {
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
 		$csp->addAllowedChildSrcDomain('https://*.duosecurity.com');
 		$csp->addAllowedStyleDomain('https://*.duosecurity.com');
+		$csp->addAllowedFrameDomain('https://*.duosecurity.com');
                 return $csp;
         }
 
