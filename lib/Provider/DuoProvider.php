@@ -21,17 +21,25 @@
 
 namespace OCA\TwoFactorDuo\Provider;
 
-global $conf_ini_array;
-
 use OCA\TwoFactorDuo\Web;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\Authentication\TwoFactorAuth\IProvider;
+use OCP\IConfig;
 use OCP\IUser;
 use OCP\Template;
 
-$conf_ini_array = parse_ini_file('duo/duo.ini', 1);
-
 class DuoProvider implements IProvider {
+
+	/** @var IConfig */
+	private $config;
+
+	private function getConfig() {
+		return $this->config->getSystemValue('twofactor_duo', null);
+	}
+
+	public function __construct(IConfig $config) {
+		$this->config = $config;
+	}
 
 	/**
 	 * Get unique identifier of this 2FA provider
@@ -117,17 +125,17 @@ class DuoProvider implements IProvider {
 	 * @return boolean
 	 */
 	public function isTwoFactorAuthEnabledForUser(IUser $user) {
-		global $conf_ini_array;
+		$config = $this->getConfig();
 
 		// If configured in duo.ini, LDAP users will bypass Duo 2FA
-		if (isset($conf_ini_array['custom_settings']['LDAP_BYPASS']) && $conf_ini_array['custom_settings']['LDAP_BYPASS'] === true) {
+		if (isset($config['custom_settings']['LDAP_BYPASS']) && $config['custom_settings']['LDAP_BYPASS'] === true) {
 			// Check the backend of the user and bypass Duo if LDAP
 			$backend = $user->getBackendClassName();
 			return $backend !== 'LDAP';
 		}
 		// If configured in duo.ini, source IP addresses specified in the IP_BYPASS array will bypass Duo 2FA
-		if (isset($conf_ini_array['custom_settings']['IP_BYPASS'])) {
-			$IP_BYPASS = $conf_ini_array['custom_settings']['IP_BYPASS'];
+		if (isset($config['custom_settings']['IP_BYPASS'])) {
+			$IP_BYPASS = $config['custom_settings']['IP_BYPASS'];
 			$remote_ip = (string) trim((getenv(REMOTE_ADDR)));
 			return !in_array($remote_ip, $IP_BYPASS);
 		}
