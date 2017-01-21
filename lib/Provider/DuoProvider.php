@@ -88,13 +88,13 @@ class DuoProvider implements IProvider {
 	 * @return Template
 	 */
 	public function getTemplate(IUser $user) {
-		global $conf_ini_array;
+		$config = $this->config;
 		$tmpl = new Template('duo', 'challenge');
 		$tmpl->assign('user', $user->getUID());
-		$tmpl->assign('IKEY', $conf_ini_array['duo_app_settings']['IKEY']);
-		$tmpl->assign('SKEY', $conf_ini_array['duo_app_settings']['SKEY']);
-		$tmpl->assign('AKEY', $conf_ini_array['duo_app_settings']['AKEY']);
-		$tmpl->assign('HOST', $conf_ini_array['duo_app_settings']['HOST']);
+		$tmpl->assign('IKEY', $config['duo_app_settings']['IKEY']);
+		$tmpl->assign('SKEY', $config['duo_app_settings']['SKEY']);
+		$tmpl->assign('AKEY', $config['duo_app_settings']['AKEY']);
+		$tmpl->assign('HOST', $config['duo_app_settings']['HOST']);
 		return $tmpl;
 	}
 
@@ -105,11 +105,11 @@ class DuoProvider implements IProvider {
 	 * @param string $challenge
 	 */
 	public function verifyChallenge(IUser $user, $challenge) {
-		global $conf_ini_array;
+		$config = $this->getConfig();
 
-		$IKEY = $conf_ini_array['duo_app_settings']['IKEY'];
-		$SKEY = $conf_ini_array['duo_app_settings']['SKEY'];
-		$AKEY = $conf_ini_array['duo_app_settings']['AKEY'];
+		$IKEY = $config['duo_app_settings']['IKEY'];
+		$SKEY = $config['duo_app_settings']['SKEY'];
+		$AKEY = $config['duo_app_settings']['AKEY'];
 
 		$resp = Web::verifyResponse($IKEY, $SKEY, $AKEY, $challenge);
 		if ($resp) {
@@ -125,15 +125,7 @@ class DuoProvider implements IProvider {
 	 * @return boolean
 	 */
 	public function isTwoFactorAuthEnabledForUser(IUser $user) {
-		$config = $this->getConfig();
-
-		// If configured in duo.ini, LDAP users will bypass Duo 2FA
-		if (isset($config['custom_settings']['LDAP_BYPASS']) && $config['custom_settings']['LDAP_BYPASS'] === true) {
-			// Check the backend of the user and bypass Duo if LDAP
-			$backend = $user->getBackendClassName();
-			return $backend !== 'LDAP';
-		}
-		return true; // Fallback to requiring 2FA
+		return true;
 	}
 
 }
