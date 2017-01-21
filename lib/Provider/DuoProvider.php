@@ -133,12 +133,6 @@ class DuoProvider implements IProvider {
 			$backend = $user->getBackendClassName();
 			return $backend !== 'LDAP';
 		}
-		// If configured in duo.ini, source IP addresses specified in the IP_BYPASS array will bypass Duo 2FA
-		if (isset($config['custom_settings']['IP_BYPASS'])) {
-			$IP_BYPASS = $config['custom_settings']['IP_BYPASS'];
-			$remote_ip = (string) trim((getenv(REMOTE_ADDR)));
-			return !in_array($remote_ip, $IP_BYPASS);
-		}
 		return true; // Fallback to requiring 2FA
 	}
 
