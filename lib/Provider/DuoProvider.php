@@ -29,8 +29,6 @@ use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IUser;
 use OCP\Template;
 
-require_once 'duo/lib/Web.php';
-
 $conf_ini_array = parse_ini_file('duo/duo.ini', 1);
 
 class DuoProvider implements IProvider {
