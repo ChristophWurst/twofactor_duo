@@ -3,8 +3,8 @@
 use OCA\TwoFactorDuo\Web;
 
 $sig_request = Web::signRequest($_['IKEY'], $_['SKEY'], $_['AKEY'], $_['user']);
-script('duo', 'Duo-Web-v2');
-style('duo', 'challenge');
+script('twofactor_duo', 'Duo-Web-v2');
+style('twofactor_duo', 'challenge');
 ?>
 <iframe id="duo_iframe"
 	data-host="<?php p($_['HOST']); ?>"

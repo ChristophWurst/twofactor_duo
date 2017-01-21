@@ -24,11 +24,12 @@ namespace OCA\TwoFactorDuo\Provider;
 use OCA\TwoFactorDuo\Web;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\Authentication\TwoFactorAuth\IProvider;
+use OCP\Authentication\TwoFactorAuth\IProvidesCustomCSP;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\Template;
 
-class DuoProvider implements IProvider {
+class DuoProvider implements IProvider, IProvidesCustomCSP {
 
 	/** @var IConfig */
 	private $config;
@@ -88,8 +89,8 @@ class DuoProvider implements IProvider {
 	 * @return Template
 	 */
 	public function getTemplate(IUser $user) {
-		$config = $this->config;
-		$tmpl = new Template('duo', 'challenge');
+		$config = $this->getConfig();
+		$tmpl = new Template('twofactor_duo', 'challenge');
 		$tmpl->assign('user', $user->getUID());
 		$tmpl->assign('IKEY', $config['IKEY']);
 		$tmpl->assign('SKEY', $config['SKEY']);
