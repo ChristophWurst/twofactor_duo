@@ -4,7 +4,7 @@ require_once 'duo/lib/Web.php';
 
 $sig_request = Duo\Web::signRequest($_['IKEY'], $_['SKEY'], $_['AKEY'], $_['user']);
 script('duo', 'Duo-Web-v2');
-style('duo', 'Duo-Frame');
+style('duo', 'challenge');
 ?>
 <iframe id="duo_iframe"
     data-host="<?php p($_['HOST']); ?>"
