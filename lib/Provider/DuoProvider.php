@@ -91,10 +91,10 @@ class DuoProvider implements IProvider {
 		$config = $this->config;
 		$tmpl = new Template('duo', 'challenge');
 		$tmpl->assign('user', $user->getUID());
-		$tmpl->assign('IKEY', $config['duo_app_settings']['IKEY']);
-		$tmpl->assign('SKEY', $config['duo_app_settings']['SKEY']);
-		$tmpl->assign('AKEY', $config['duo_app_settings']['AKEY']);
-		$tmpl->assign('HOST', $config['duo_app_settings']['HOST']);
+		$tmpl->assign('IKEY', $config['IKEY']);
+		$tmpl->assign('SKEY', $config['SKEY']);
+		$tmpl->assign('AKEY', $config['AKEY']);
+		$tmpl->assign('HOST', $config['HOST']);
 		return $tmpl;
 	}
 
@@ -107,9 +107,9 @@ class DuoProvider implements IProvider {
 	public function verifyChallenge(IUser $user, $challenge) {
 		$config = $this->getConfig();
 
-		$IKEY = $config['duo_app_settings']['IKEY'];
-		$SKEY = $config['duo_app_settings']['SKEY'];
-		$AKEY = $config['duo_app_settings']['AKEY'];
+		$IKEY = $config['IKEY'];
+		$SKEY = $config['SKEY'];
+		$AKEY = $config['AKEY'];
 
 		$resp = Web::verifyResponse($IKEY, $SKEY, $AKEY, $challenge);
 		if ($resp) {
