@@ -1,23 +1,21 @@
 <?xml version="1.0"?>
-<info>
-	<id>duo</id>
-	<name>Duo Two-Factor Provider</name>
-	<description>Duo Two-Factor-Auth Provider for ownCloud 9.2+</description>
-	<licence>AGPL</licence>
-	<author>El-ad Blech</author>
-	<version>1.2.0</version>
-	<namespace>Duo</namespace>
-	<category>other</category>
-	<types>
-		<prelogin/>
-		<authentication/>
-	</types>
-
-	<two-factor-providers>
-		<provider>OCA\Duo\Provider\DuoProvider</provider>
-	</two-factor-providers>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>twofactor_duo</id>
+	<name>Duo Two Factor Provider</name>
+	<summary>two-factor provider for Duo</summary>
+	<description>A Two-Factor-Auth Provider for Duo</description>
+	<version>0.0.1</version>
+	<licence>agpl</licence>
+	<author>Christoph Wurst</author>
+	<namespace>TwoFactorDuo</namespace>
+	<category>auth</category>
 
 	<dependencies>
-		<owncloud min-version="9.2" max-version="9.3" />
+		<php min-version="5.6" max-version="7.1" />
+		<nextcloud min-version="12" max-version="12" />
 	</dependencies>
+	<two-factor-providers>
+		<provider>OCA\TwoFactorDuo\Provider\DuoProvider</provider>
+	</two-factor-providers>
 </info>
