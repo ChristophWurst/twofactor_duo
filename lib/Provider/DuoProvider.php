@@ -2,6 +2,7 @@
 
 /**
  * @author El-ad Blech <elie@theinfamousblix.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  *
  * This code is free software: you can redistribute it and/or modify
@@ -18,18 +19,21 @@
  *
  */
 
-namespace OCA\Duo\Provider;
+namespace OCA\TwoFactorDuo\Provider;
+
 global $conf_ini_array;
 
-use OCP\Authentication\TwoFactorAuth\IProvider2;
+use OCA\TwoFactorDuo\Web;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
+use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IUser;
 use OCP\Template;
 
 require_once 'duo/lib/Web.php';
 
-$conf_ini_array = parse_ini_file('duo/duo.ini',1);
+$conf_ini_array = parse_ini_file('duo/duo.ini', 1);
 
-class DuoProvider implements IProvider2 {
+class DuoProvider implements IProvider {
 
 	/**
 	 * Get unique identifier of this 2FA provider
@@ -59,18 +63,17 @@ class DuoProvider implements IProvider2 {
 	}
 
 	/**
-         * Get the Content Security Policy for the template (required for showing external content, otherwise optional)
-         *
-         * @return \OCP\AppFramework\Http\ContentSecurityPolicy
-         */
-
+	 * Get the Content Security Policy for the template (required for showing external content, otherwise optional)
+	 *
+	 * @return ContentSecurityPolicy
+	 */
 	public function getCSP() {
-		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
+		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedChildSrcDomain('https://*.duosecurity.com');
 		$csp->addAllowedStyleDomain('https://*.duosecurity.com');
 		$csp->addAllowedFrameDomain('https://*.duosecurity.com');
-                return $csp;
-        }
+		return $csp;
+	}
 
 	/**
 	 * Get the template for rending the 2FA provider view
@@ -96,13 +99,13 @@ class DuoProvider implements IProvider2 {
 	 * @param string $challenge
 	 */
 	public function verifyChallenge(IUser $user, $challenge) {
-		global $conf_ini_array;	
-	
+		global $conf_ini_array;
+
 		$IKEY = $conf_ini_array['duo_app_settings']['IKEY'];
 		$SKEY = $conf_ini_array['duo_app_settings']['SKEY'];
 		$AKEY = $conf_ini_array['duo_app_settings']['AKEY'];
 
-		$resp = \Duo\Web::verifyResponse($IKEY, $SKEY, $AKEY, $challenge);
+		$resp = Web::verifyResponse($IKEY, $SKEY, $AKEY, $challenge);
 		if ($resp) {
 			return true;
 		}
@@ -122,21 +125,15 @@ class DuoProvider implements IProvider2 {
 		if (isset($conf_ini_array['custom_settings']['LDAP_BYPASS']) && $conf_ini_array['custom_settings']['LDAP_BYPASS'] === true) {
 			// Check the backend of the user and bypass Duo if LDAP
 			$backend = $user->getBackendClassName();
-			if ($backend == 'LDAP')
-				return false;
-			else
-				return true;
+			return $backend !== 'LDAP';
 		}
 		// If configured in duo.ini, source IP addresses specified in the IP_BYPASS array will bypass Duo 2FA
 		if (isset($conf_ini_array['custom_settings']['IP_BYPASS'])) {
 			$IP_BYPASS = $conf_ini_array['custom_settings']['IP_BYPASS'];
-			$remote_ip = (string)trim((getenv(REMOTE_ADDR)));
-			if (in_array($remote_ip,$IP_BYPASS))
-				return false;
-			else
-				return true;
+			$remote_ip = (string) trim((getenv(REMOTE_ADDR)));
+			return !in_array($remote_ip, $IP_BYPASS);
 		}
-                return true; // Fallback to requiring 2FA
+		return true; // Fallback to requiring 2FA
 	}
 
 }
