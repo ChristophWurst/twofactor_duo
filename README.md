@@ -14,8 +14,9 @@ Add your duo configuration to your Nextcloud's `config/config.php` fils:
 ## Nextcloud server patch
 The app provides a custom CSP which the Nextcloud server currently does not support. The following patch adds this customization support:
 ```patch
- core/Controller/TwoFactorChallengeController.php | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ core/Controller/TwoFactorChallengeController.php   | 12 ++++++--
+ .../TwoFactorAuth/IProvidesCustomCSP.php           | 33 ++++++++++++++++++++++
+ 2 files changed, 42 insertions(+), 3 deletions(-)
 
 diff --git a/core/Controller/TwoFactorChallengeController.php b/core/Controller/TwoFactorChallengeController.php
 index fd4811d3ff..ed4c4f45d4 100644
@@ -59,4 +60,43 @@ index fd4811d3ff..ed4c4f45d4 100644
  		]));
  	}
  
+diff --git a/lib/public/Authentication/TwoFactorAuth/IProvidesCustomCSP.php b/lib/public/Authentication/TwoFactorAuth/IProvidesCustomCSP.php
+new file mode 100644
+index 0000000000..bf6a8a1bcc
+--- /dev/null
++++ b/lib/public/Authentication/TwoFactorAuth/IProvidesCustomCSP.php
+@@ -0,0 +1,33 @@
++<?php
++
++/**
++ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
++ *
++ * @license GNU AGPL version 3 or any later version
++ *
++ * This program is free software: you can redistribute it and/or modify
++ * it under the terms of the GNU Affero General Public License as
++ * published by the Free Software Foundation, either version 3 of the
++ * License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU Affero General Public License for more details.
++ *
++ * You should have received a copy of the GNU Affero General Public License
++ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
++ *
++ */
++
++namespace OCP\Authentication\TwoFactorAuth;
++
++use OCP\AppFramework\Http\ContentSecurityPolicy;
++
++interface IProvidesCustomCSP {
++
++	/**
++	 * @return ContentSecurityPolicy
++	 */
++	public function getCSP();
++}
 ```
